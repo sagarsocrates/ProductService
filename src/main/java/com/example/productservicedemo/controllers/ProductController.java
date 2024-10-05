@@ -27,7 +27,9 @@ public class ProductController {
     //localhost:2020/prodcuts
     @GetMapping("/")
     public List<Product> getAllProducts() {
-        return new ArrayList<Product>();
+
+        return productService.getAllProducts();
+//        return new ArrayList<Product>();
     }
 
     //create
@@ -45,7 +47,9 @@ public class ProductController {
     //Replace Product
     @PutMapping
     public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product) {
-        return new Product();
+
+        return productService.replaceProduct(id, product);
+//        return new Product();
     }
 
     @DeleteMapping("/{id}")
