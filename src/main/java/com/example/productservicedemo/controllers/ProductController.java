@@ -3,6 +3,9 @@ package com.example.productservicedemo.controllers;
 import com.example.productservicedemo.dtos.ProductDto;
 import com.example.productservicedemo.models.Product;
 import com.example.productservicedemo.services.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,16 +23,16 @@ public class ProductController {
     }
     //localhost:2020/prodcuts/10
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") long id) {
-            return productService.getProductById(id);
-//            return new Product();
+    public ResponseEntity<Product> getProductById(@PathVariable("id") long id) {
+
+        Product product =  productService.getProductById(id);
+        return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
     }
 
     //localhost:2020/prodcuts
     @GetMapping("/")
     public List<Product> getAllProducts() {
-
-        return productService.getAllProducts();
+          return  productService.getAllProducts();
 //        return new ArrayList<Product>();
     }
 
