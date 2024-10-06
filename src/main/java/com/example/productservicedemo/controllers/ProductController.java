@@ -1,6 +1,8 @@
 package com.example.productservicedemo.controllers;
 
 import com.example.productservicedemo.dtos.ProductDto;
+import com.example.productservicedemo.exceptions.InvalidProductIdException;
+import com.example.productservicedemo.exceptions.ProductControllerSpecificException;
 import com.example.productservicedemo.models.Product;
 import com.example.productservicedemo.services.ProductService;
 import org.springframework.http.HttpStatus;
@@ -23,7 +25,7 @@ public class ProductController {
     }
     //localhost:2020/prodcuts/10
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") long id) throws InvalidProductIdException {
 
         Product product =  productService.getProductById(id);
         return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
@@ -59,6 +61,11 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") Long id) {
 
+    }
+
+    @ExceptionHandler(ProductControllerSpecificException.class)
+    public ResponseEntity<Void> handleProductControllerSpecificException(){
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
