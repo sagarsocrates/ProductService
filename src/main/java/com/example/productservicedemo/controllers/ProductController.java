@@ -5,6 +5,7 @@ import com.example.productservicedemo.exceptions.InvalidProductIdException;
 import com.example.productservicedemo.exceptions.ProductControllerSpecificException;
 import com.example.productservicedemo.models.Product;
 import com.example.productservicedemo.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ProductController {
 
     private ProductService productService;
 
-    ProductController(ProductService productService) {
+    ProductController(@Qualifier("selfProductService") ProductService productService) {
         this.productService = productService;
     }
     //localhost:2020/prodcuts/10
@@ -41,7 +42,7 @@ public class ProductController {
     //create
     @PostMapping
     public Product createProduct(@RequestBody Product product) {
-        return new Product();
+        return productService.createProduct(product);
     }
 
     //Partial Update
