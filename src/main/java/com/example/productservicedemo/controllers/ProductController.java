@@ -36,7 +36,6 @@ public class ProductController {
     @GetMapping("/")
     public List<Product> getAllProducts() {
           return  productService.getAllProducts();
-//        return new ArrayList<Product>();
     }
 
     //create
@@ -48,7 +47,7 @@ public class ProductController {
     //Partial Update
     @PatchMapping("/{id}")
     public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
-        return new Product();
+        return productService.updateProduct(id, product);
     }
 
     //Replace Product
@@ -56,12 +55,11 @@ public class ProductController {
     public Product replaceProduct(@PathVariable("id") Long id, @RequestBody ProductDto product) {
 
         return productService.replaceProduct(id, product);
-//        return new Product();
     }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") Long id) {
-
+        productService.deleteProduct(id);
     }
 
     @ExceptionHandler(ProductControllerSpecificException.class)

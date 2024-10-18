@@ -1,5 +1,6 @@
 package com.example.productservicedemo.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -13,8 +14,10 @@ public class Product extends BaseModel{
 
     private String title;
     private Double price;
-    @ManyToOne
-    private Category category;
+
+    @ManyToOne (cascade = CascadeType.PERSIST)
+    private Category category; //EAGER FETCH BY DEFAULT
+
     private String description;
     private String image;
 }

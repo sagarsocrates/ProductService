@@ -6,6 +6,7 @@ import com.example.productservicedemo.models.Category;
 import com.example.productservicedemo.models.Product;
 import com.example.productservicedemo.repositories.CategoryRepository;
 import com.example.productservicedemo.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -25,21 +26,37 @@ public class SelfProductService implements ProductService {
     }
     @Override
     public Product getProductById(Long id) throws InvalidProductIdException {
-        //Optionl is used for safety, if the returned value is null, we might get
+        //Optional is used for safety, if the returned value is null, we might get
         // null pointer exception, if we mark it optional, it will give us a warning
-        // that it could be null and we are supposed to handle that case
+        // that it could be null, we are supposed to handle that case
         Optional<Product> optionalProduct =  productRepository.findById(id);
         return optionalProduct.orElse(null);
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return productRepository.findAll();
     }
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        return null;
+
+        if(product == null) throw new RuntimeException("Product cannot be null");
+
+        Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if (optionalProduct.isEmpty()) throw new RuntimeException("Product not found");
+
+        Product currentProduct = optionalProduct.get();
+
+        if(product.getTitle() != null){
+            currentProduct.setTitle(product.getTitle());
+        }
+
+        if(product.getDescription() != null){
+            currentProduct.setDescription(product.getDescription());
+        }
+        return productRepository.save(currentProduct);
     }
 
     @Override
@@ -56,11 +73,24 @@ public class SelfProductService implements ProductService {
 
     @Override
     public Product replaceProduct(Long id, ProductDto productDto) {
-        return null;
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) throw new RuntimeException("Product not found");
+        Product currentProduct = optionalProduct.get();
+        currentProduct.setTitle(productDto.getTitle());
+        currentProduct.setDescription(productDto.getDescription());
+        currentProduct.setImage(productDto.getImage());
+        currentProduct.setPrice(productDto.getPrice());
+
+        Optional<Category> currentCategory = categoryRepository.findById(productDto.getId());
+        if(currentCategory.isPresent()){
+            currentProduct.setCategory(currentCategory.get());
+        }
+        return productRepository.save(currentProduct);
+
     }
 
     @Override
     public void deleteProduct(Long id) {
-
+            productRepository.deleteById(id);
     }
 }
