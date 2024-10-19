@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service ("selfProductService")
-//@Primary => This annotation can be use only if we need to give high priority to a single service
+@Primary
+//=> This annotation can be use only if we need to give high priority to a single service
 public class SelfProductService implements ProductService {
 
     private ProductRepository productRepository;
@@ -30,7 +31,10 @@ public class SelfProductService implements ProductService {
         // null pointer exception, if we mark it optional, it will give us a warning
         // that it could be null, we are supposed to handle that case
         Optional<Product> optionalProduct =  productRepository.findById(id);
-        return optionalProduct.orElse(null);
+        if(optionalProduct.isEmpty()){
+            throw new InvalidProductIdException(id, "Invalid Product Id");
+        }
+        return optionalProduct.get();
     }
 
     @Override

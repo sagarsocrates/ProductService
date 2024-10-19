@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class Category extends BaseModel{
 
-    @OneToMany (fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.REMOVE)
-    private List<Product> products; //LAZY FETCH by default, for collections, if we dont explicitly give fetchtype
+//    @OneToMany (fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.REMOVE)
+//    private List<Product> products; //LAZY FETCH by default, for collections, if we dont explicitly give fetchtype
     private String title;
 }
