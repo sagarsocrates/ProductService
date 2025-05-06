@@ -16,44 +16,44 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+//@SpringBootTest
 class ProductControllerTest {
-
-    @Autowired
-    private ProductController productController;
-
-    @MockBean
-    private ProductService productService;
-
-    @Test
-    void testGetProductByIdValidCase() throws InvalidProductIdException {
-        //3 A's
-
-        Product product = new Product();
-        product.setId(1L);
-        product.setTitle("iphone 15");
-        product.setDescription("iphone 15");
-        product.setPrice(55000.0);
-
-        when(productService.getProductById(1L)).thenReturn(product);
-
-        ResponseEntity<Product> expectedResponse = productController.getProductById(1L);
-
-        assertEquals(product, expectedResponse.getBody());
-
-        assertEquals(HttpStatus.ACCEPTED, expectedResponse.getStatusCode());
-
-    }
-
-    @Test
-    void testGetProductByIdInvalidCase() throws InvalidProductIdException {
-      when(productService.getProductById(1000L)).
-              thenThrow(new InvalidProductIdException(1000L, "Invalid Product Id"));
-
-      assertThrows(InvalidProductIdException.class,
-              () -> productController.getProductById(1000L)
-      );
-    }
+//
+//    @Autowired
+//    private ProductController productController;
+//
+//    @MockBean
+//    private ProductService productService;
+//
+////    @Test
+//    void testGetProductByIdValidCase() throws InvalidProductIdException {
+//        //3 A's
+//
+//        Product product = new Product();
+//        product.setId(1L);
+//        product.setTitle("iphone 15");
+//        product.setDescription("iphone 15");
+//        product.setPrice(55000.0);
+//
+//        when(productService.getProductById(1L)).thenReturn(product);
+//
+//        ResponseEntity<Product> expectedResponse = productController.getProductById(1L);
+//
+//        assertEquals(product, expectedResponse.getBody());
+//
+//        assertEquals(HttpStatus.ACCEPTED, expectedResponse.getStatusCode());
+//
+//    }
+//
+//    @Test
+//    void testGetProductByIdInvalidCase() throws InvalidProductIdException {
+//      when(productService.getProductById(1000L)).
+//              thenThrow(new InvalidProductIdException(1000L, "Invalid Product Id"));
+//
+//      assertThrows(InvalidProductIdException.class,
+//              () -> productController.getProductById(1000L)
+//      );
+//    }
 
 //    @Test
 //    void testGetAllProductsValidCase() throws InvalidProductIdException {

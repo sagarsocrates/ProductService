@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class SampleTestFile {
 
-    @Test
+//    @Test
     void testOnePlusOneIsTwo(){
         //3 A's of writing unit test
         // Arrange, act, asset

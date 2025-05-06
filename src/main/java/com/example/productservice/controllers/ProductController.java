@@ -9,6 +9,7 @@ import com.example.productservice.models.Product;
 import com.example.productservice.models.Role;
 import com.example.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +37,16 @@ public class ProductController {
     }
 
     //localhost:2020/prodcuts
-    @GetMapping("/all/{token}")
-    public ResponseEntity<List<Product>> getAllProducts(@PathVariable String token) {
+//    @GetMapping("/all/{token}")
+    @GetMapping("/")
+    public ResponseEntity<Page<Product>> getAllProducts(@RequestParam("pageNumber") int pageNumber,
+                                                        @RequestParam("pageSize") int pageSize) {
         //Validate the token using UserService
-        UserDto userDto = authenticationCommons.validateToken(token);
+//        UserDto userDto = authenticationCommons.validateToken(token);
 
-        if(userDto == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+//        if(userDto == null) {
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
 
 //        boolean isAdmin = false;
 //        for(Role role : userDto.getRoles()) {
@@ -56,8 +59,8 @@ public class ProductController {
 //        if(!isAdmin) {
 //            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 //        }
-
-        return  new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+        Page<Product> products = productService.getAllProducts(pageNumber, pageSize);
+        return  new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     //create
