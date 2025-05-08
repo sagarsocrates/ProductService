@@ -24,7 +24,7 @@ public class ProductController {
     private ProductService productService;
     AuthenticationCommons authenticationCommons;
 
-    ProductController(@Qualifier("selfProductService") ProductService productService, AuthenticationCommons authenticationCommons) {
+    ProductController(@Qualifier("fakeStoreProductService") ProductService productService, AuthenticationCommons authenticationCommons) {
         this.productService = productService;
         this.authenticationCommons = authenticationCommons;
     }

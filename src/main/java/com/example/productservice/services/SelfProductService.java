@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service ("selfProductService")
-@Primary
+//@Primary
 //=> This annotation can be use only if we need to give high priority to a single service
 public class SelfProductService implements ProductService {
 
