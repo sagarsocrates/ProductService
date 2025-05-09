@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +24,20 @@ public class ProductController {
 
     private ProductService productService;
     AuthenticationCommons authenticationCommons;
+    RestTemplate restTemplate;
 
-    ProductController(@Qualifier("fakeStoreProductService") ProductService productService, AuthenticationCommons authenticationCommons) {
+    ProductController(@Qualifier("fakeStoreProductService") ProductService productService, AuthenticationCommons authenticationCommons, RestTemplate restTemplate) {
         this.productService = productService;
         this.authenticationCommons = authenticationCommons;
+        this.restTemplate = restTemplate;
     }
     //localhost:2020/prodcuts/10
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") long id) throws InvalidProductIdException {
 
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                "http://UserService/users/10", String.class
+        );
         Product product =  productService.getProductById(id);
         return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
     }
