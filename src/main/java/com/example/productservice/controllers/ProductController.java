@@ -34,10 +34,10 @@ public class ProductController {
     //localhost:2020/prodcuts/10
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") long id) throws InvalidProductIdException {
-
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                "http://UserService/users/10", String.class
-        );
+        System.out.println("Got the request here via API gateway");
+//        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+//                "http://UserService/users/10", String.class
+//        );
         Product product =  productService.getProductById(id);
         return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
     }
